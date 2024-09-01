@@ -9,6 +9,7 @@ const LoginPage = () => {
   const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleRoleChange = (event) => {
@@ -35,7 +36,7 @@ const LoginPage = () => {
       const apiUrl =
         role === "ALUMNI"
           ? "https://xperts-final-backend.onrender.com/auth/aluminiLogin"
-          : "https://xperts-final-backend.onrender.com/auth/aluminiStudent";
+          : "https://xperts-final-backend.onrender.com/auth/studentLogin";
 
       const response = await axios.post(apiUrl, {
         email: email,
@@ -48,10 +49,9 @@ const LoginPage = () => {
       }
     } catch (error) {
       if (error.response && error.response.status === 403) {
-        alert("Password is incorrect. Please try again.");
+        setError("Invalid CredientialsInvalid Credentials");
       } else {
-        console.error("Login failed:", error);
-        alert("Login failed. Please check your credentials.");
+        setError("Login failed.");
       }
     }
   };
@@ -67,6 +67,11 @@ const LoginPage = () => {
         <h2 className='text-2xl font-bold text-[var(--deep-blue)] mb-6 text-center'>
           Login
         </h2>
+        {error.length != 0 && (
+          <div className='py-2 px-4 border rounded-md border-red-400 bg-rose-200 font-semibold uppercase text-center text-md my-4'>
+            {error}
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className='mb-4'>
             <label className='block text-gray-700 mb-2'>Select Role</label>

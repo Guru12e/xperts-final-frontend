@@ -156,7 +156,7 @@ const StudentForm = () => {
     } catch (e) {
       console.error("Error during registration:", e);
     } finally {
-      setLoading(false); // Hide loader
+      setLoading(false); 
     }
   };
 
@@ -179,7 +179,7 @@ const StudentForm = () => {
           )}
           {loading && (
             <div className='flex justify-center my-4'>
-              <div className='loader'></div> {/* Loader component */}
+              <div className='loader'></div> 
             </div>
           )}
           <form onSubmit={handleSubmit}>

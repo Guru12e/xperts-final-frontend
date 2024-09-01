@@ -27,7 +27,7 @@ const Recommendation = () => {
 
         if (requestData) {
           const usersRes = await axios.post(
-            "http://localhost:5000/auth/getRecommend",
+            "https://xperts-final-backend.onrender.com/auth/getRecommend",
             requestData
           );
 

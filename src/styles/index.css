@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=New+Amsterdam&family=Outfit:wght@100..900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Outfit", sans-serif;
+}
+
+.primary-btn {
+  background-color: #03346e;
+  color: #fffbe6;
+  padding: 7px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.primary-btn:hover {
+  background-color: #1b4f8f;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-in-out;
+}
+
+.animate-slideIn {
+  animation: slideIn 1s ease-in-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}

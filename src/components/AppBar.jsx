@@ -9,10 +9,11 @@ export default function AppBar() {
   const [isUser, setisUser] = useState(false);
   const [user, setUser] = useState();
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+
   const [searchFields, setSearchFields] = useState({
     institution: "",
-    department: "",
-    year: "",
+    dept: "",
+    areaOfIntrest: "",
   });
 
   const areasOfInterest = [
@@ -61,8 +62,17 @@ export default function AppBar() {
     setIsSearchModalOpen(!isSearchModalOpen);
   }
 
-  function handleSearchSubmit() {
-    navigate("/recommend", { state: searchFields });
+  function handleSearchSubmit(e) {
+    e.preventDefault();
+    const filteredSearchFields = {};
+
+    Object.keys(searchFields).forEach((key) => {
+      if (searchFields[key]) {
+        filteredSearchFields[key] = searchFields[key];
+      }
+    });
+
+    navigate("/recommend", { state: filteredSearchFields });
     toggleSearchModal();
   }
 
@@ -189,7 +199,6 @@ export default function AppBar() {
                   value={searchFields.institution}
                   onChange={handleInputChange}
                   className='w-full p-2 border rounded'
-                  required
                 >
                   <option value=''>Select Institution</option>
                   {colleges.map((college, index) => (
@@ -202,11 +211,10 @@ export default function AppBar() {
               <div className='mb-4'>
                 <label className='block text-sm font-medium'>Department</label>
                 <select
-                  name='department'
-                  value={searchFields.department}
+                  name='dept'
+                  value={searchFields.dept}
                   onChange={handleInputChange}
                   className='w-full p-2 border rounded'
-                  required
                 >
                   <option value=''>Select Department</option>
                   {departments.map((department, index) => (
@@ -221,11 +229,10 @@ export default function AppBar() {
                   Area of Interest
                 </label>
                 <select
-                  name='areaOfInterest'
-                  value={searchFields.areaOfInterest}
+                  name='areaOfIntrest'
+                  value={searchFields.areaOfIntrest}
                   onChange={handleInputChange}
                   className='w-full p-2 border rounded'
-                  required
                 >
                   <option value=''>Select Area of Interest</option>
                   {areasOfInterest.map((area, index) => (

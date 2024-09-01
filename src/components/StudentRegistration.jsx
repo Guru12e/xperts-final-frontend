@@ -124,7 +124,7 @@ const StudentForm = () => {
     setLoading(true);
 
     try {
-      if (otpSend !== otp) {
+      if (otpSend != otp) {
         setError("Invalid OTP");
         return;
       }

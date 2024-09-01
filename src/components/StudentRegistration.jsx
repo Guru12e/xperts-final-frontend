@@ -90,7 +90,7 @@ const StudentForm = () => {
 
     try {
       const otpResponse = await axios.post(
-        "http://localhost:5000/auth/otpVerify",
+        "https://xperts-final-backend.onrender.com/auth/otpVerify",
         {
           email: formData.email,
           collegeId: formData.collegeId,
@@ -123,7 +123,7 @@ const StudentForm = () => {
       }
 
       const userResponse = await axios.post(
-        "http://localhost:5000/auth/studentRegister",
+        "https://xperts-final-backend.onrender.com/auth/studentRegister",
         {
           collegeId: formData.collegeId,
           email: formData.email,

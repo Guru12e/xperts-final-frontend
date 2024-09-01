@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 
 const Recommendation = () => {
   const [users, setUsers] = useState([]);
+  const [userText, setUserText] = useState("");
   const location = useLocation();
 
   useEffect(() => {
@@ -43,11 +44,12 @@ const Recommendation = () => {
             setUsers(filteredUsers);
           }
         } else {
+          setUsers([]);
           setUserText("No user data or search parameters found.");
         }
       } catch (error) {
-        console.error("Error fetching recommendations:", error);
-        setUserText("Error fetching recommendations.");
+        setUsers([]);
+        setUserText("No user data or search parameters found.");
       }
     };
 
@@ -95,9 +97,7 @@ const Recommendation = () => {
             ))}
           </div>
         ) : (
-          <p className='text-center text-lg text-gray-500 mt-6'>
-            No users to display.
-          </p>
+          <p className='text-center text-lg text-gray-500 mt-6'>{userText}</p>
         )}
       </div>
     </div>

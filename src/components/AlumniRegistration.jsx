@@ -32,13 +32,14 @@ const AlumniForm = () => {
     collegeId: "",
   });
 
-  const navigate = useNavigate();
-
   const [otp, setOtp] = useState("");
   const [otpSend, setOtpSend] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const departments = ["ECE", "CSC", "IT", "MECH", "BME", "EEE"];
   const yearsOfGraduation = [];
@@ -89,9 +90,11 @@ const AlumniForm = () => {
       return;
     }
 
+    setLoading(true);
+
     try {
       const otpResponse = await axios.post(
-        "https://xperts-final-backend.onrender.com/auth/otpVerify",
+        "http://localhost:5000/auth/otpVerify",
         {
           email: formData.email,
           collegeId: formData.collegeId,
@@ -113,18 +116,23 @@ const AlumniForm = () => {
       }
     } catch (e) {
       console.log(e);
+      setError("Error sending OTP. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleOtpSubmit = async () => {
+    setLoading(true);
+
     try {
-      if (otpSend != otp) {
-        alert("Invalid OTP");
+      if (otpSend !== otp) {
+        setError("Invalid OTP");
         return;
       }
 
       const userResponse = await axios.post(
-        "https://xperts-final-backend.onrender.com/auth/aluminiRegister",
+        "http://localhost:5000/auth/aluminiRegister",
         {
           collegeId: formData.collegeId,
           email: formData.email,
@@ -145,10 +153,13 @@ const AlumniForm = () => {
         setIsModalOpen(false);
         navigate("/");
       } else {
-        setError("Invalid OTP. Please try again.");
+        setError("Registration failed. Please try again.");
       }
     } catch (e) {
       console.log(e);
+      setError("Error during registration. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -164,9 +175,14 @@ const AlumniForm = () => {
           <h1 className='text-3xl font-bold text-blue-900 mb-6'>
             Alumni Form Submission
           </h1>
-          {error.length != 0 && (
+          {error.length !== 0 && (
             <div className='py-2 px-4 border rounded-md border-red-400 bg-rose-200 font-semibold uppercase text-center text-md my-4'>
               {error}
+            </div>
+          )}
+          {loading && (
+            <div className='flex justify-center my-4'>
+              <div className='loader'></div>
             </div>
           )}
           <form onSubmit={handleSubmit}>
@@ -269,6 +285,7 @@ const AlumniForm = () => {
               <button
                 className='bg-blue-500 text-white py-2 px-4 rounded'
                 type='submit'
+                disabled={loading}
               >
                 Submit
               </button>
@@ -295,11 +312,17 @@ const AlumniForm = () => {
           <button
             className='bg-blue-500 text-white py-2 px-4 rounded'
             onClick={handleOtpSubmit}
+            disabled={loading}
           >
             Verify OTP
           </button>
         </div>
       </Modal>
+      {loading && (
+        <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center'>
+          <div className='loader'></div>
+        </div>
+      )}
     </div>
   );
 };

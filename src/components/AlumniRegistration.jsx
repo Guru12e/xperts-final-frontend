@@ -91,7 +91,7 @@ const AlumniForm = () => {
 
     try {
       const otpResponse = await axios.post(
-        "http://localhost:5000/auth/otpVerify",
+        "https://xperts-final-backend.onrender.com/auth/otpVerify",
         {
           email: formData.email,
           collegeId: formData.collegeId,
@@ -124,7 +124,7 @@ const AlumniForm = () => {
       }
 
       const userResponse = await axios.post(
-        "http://localhost:5000/auth/aluminiRegister",
+        "https://xperts-final-backend.onrender.com/auth/aluminiRegister",
         {
           collegeId: formData.collegeId,
           email: formData.email,

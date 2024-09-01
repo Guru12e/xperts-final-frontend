@@ -34,8 +34,8 @@ const LoginPage = () => {
     try {
       const apiUrl =
         role === "ALUMNI"
-          ? "http://localhost:5000/auth/aluminiLogin"
-          : "http://localhost:5000/auth/aluminiStudent";
+          ? "https://xperts-final-backend.onrender.com/auth/aluminiLogin"
+          : "https://xperts-final-backend.onrender.com/auth/aluminiStudent";
 
       const response = await axios.post(apiUrl, {
         email: email,

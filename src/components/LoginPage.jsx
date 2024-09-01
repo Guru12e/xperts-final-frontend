@@ -10,6 +10,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleRoleChange = (event) => {
@@ -32,6 +33,8 @@ const LoginPage = () => {
       return;
     }
 
+    setLoading(true);
+
     try {
       const apiUrl =
         role === "ALUMNI"
@@ -49,10 +52,12 @@ const LoginPage = () => {
       }
     } catch (error) {
       if (error.response && error.response.status === 403) {
-        setError("Invalid CredientialsInvalid Credentials");
+        setError("Invalid Credentials");
       } else {
         setError("Login failed.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,9 +72,14 @@ const LoginPage = () => {
         <h2 className='text-2xl font-bold text-[var(--deep-blue)] mb-6 text-center'>
           Login
         </h2>
-        {error.length != 0 && (
+        {error.length !== 0 && (
           <div className='py-2 px-4 border rounded-md border-red-400 bg-rose-200 font-semibold uppercase text-center text-md my-4'>
             {error}
+          </div>
+        )}
+        {loading && (
+          <div className='flex justify-center my-4'>
+            <div className='loader'></div>
           </div>
         )}
         <form onSubmit={handleSubmit}>

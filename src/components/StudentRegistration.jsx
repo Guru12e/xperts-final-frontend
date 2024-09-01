@@ -39,6 +39,7 @@ const StudentForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -88,6 +89,8 @@ const StudentForm = () => {
       return;
     }
 
+    setLoading(true);
+
     try {
       const otpResponse = await axios.post(
         "https://xperts-final-backend.onrender.com/auth/otpVerify",
@@ -112,12 +115,16 @@ const StudentForm = () => {
       }
     } catch (e) {
       console.error("Error sending OTP:", e);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleOtpSubmit = async () => {
+    setLoading(true);
+
     try {
-      if (otpSend != otp) {
+      if (otpSend !== otp) {
         setError("Invalid OTP");
         return;
       }
@@ -148,6 +155,8 @@ const StudentForm = () => {
       }
     } catch (e) {
       console.error("Error during registration:", e);
+    } finally {
+      setLoading(false); // Hide loader
     }
   };
 
@@ -163,9 +172,14 @@ const StudentForm = () => {
           <h1 className='text-3xl font-bold text-blue-900 mb-6'>
             Student Registration Form
           </h1>
-          {error.length != 0 && (
+          {error.length !== 0 && (
             <div className='py-2 px-4 border rounded-md border-red-400 bg-rose-200 font-semibold uppercase text-center text-md my-4'>
               {error}
+            </div>
+          )}
+          {loading && (
+            <div className='flex justify-center my-4'>
+              <div className='loader'></div> {/* Loader component */}
             </div>
           )}
           <form onSubmit={handleSubmit}>
@@ -268,6 +282,7 @@ const StudentForm = () => {
               <button
                 className='bg-blue-500 text-white py-2 px-4 rounded'
                 type='submit'
+                disabled={loading}
               >
                 Submit
               </button>
@@ -294,11 +309,17 @@ const StudentForm = () => {
           <button
             className='bg-blue-500 text-white py-2 px-4 rounded'
             onClick={handleOtpSubmit}
+            disabled={loading}
           >
             Verify OTP
           </button>
         </div>
       </Modal>
+      {loading && (
+        <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center'>
+          <div className='loader'></div>
+        </div>
+      )}
     </div>
   );
 };
